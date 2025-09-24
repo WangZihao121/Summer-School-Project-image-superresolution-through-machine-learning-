@@ -34,6 +34,7 @@ if __name__ == '__main__':
         os.makedirs(args.outputs_dir)
 
     cudnn.benchmark = True
+    #的
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     torch.manual_seed(args.seed)
