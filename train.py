@@ -65,17 +65,17 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     # ==================== 模型初始化 ====================
-    # 创建FSRCNN模型并移动到相应设备（GPU/CPU）
+    # 创建FSRCNN模型并部署到相应设备（GPU/CPU）
     model = FSRCNN(scale_factor=args.scale).to(device)
     
     # 定义损失函数（均方误差损失，适用于图像重建任务）
     criterion = nn.MSELoss()
     
-    # 定义优化器（Adam优化器），对不同部分使用不同学习率
+    # 定义优化器（Adam优化器），对不同部分智能地动态调整学习率
     optimizer = optim.Adam([
-        {'params': model.first_part.parameters()},      # 第一部分：正常学习率
-        {'params': model.mid_part.parameters()},        # 中间部分：正常学习率  
-        {'params': model.last_part.parameters(), 'lr': args.lr * 0.1}  # 最后部分：较低学习率
+        {'params': model.first_part.parameters()},      # 第一部分/first_part/特征提取层：正常学习率
+        {'params': model.mid_part.parameters()},        # 中间部分/second_part/非线性映射层：正常学习率  
+        {'params': model.last_part.parameters(), 'lr': args.lr * 0.1}  # 最后部分/last_part/反卷积上采样层：较低学习率lr * 0.1
     ], lr=args.lr)
 
     # ==================== 数据加载 ====================
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
             # 遍历训练数据集的每个批次
             for data in train_dataloader:
-                inputs, labels = data  # inputs: 低分辨率图像, labels: 高分辨率真实图像
+                inputs, labels = data       #inputs: 低分辨率图像, labels: 高分辨率真实图像
 
                 # 将数据移动到相应设备
                 inputs = inputs.to(device)
