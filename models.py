@@ -32,9 +32,9 @@ class FSRCNN(nn.Module):
         nn.init.zeros_(self.last_part.bias.data)
 
     def forward(self, x):
-        x = self.first_part(x)
-        x = self.mid_part(x)
-        x = self.last_part(x)
+        x = self.first_part(x)#特征提取层
+        x = self.mid_part(x)#特征收缩和非线性映射
+        x = self.last_part(x)#反卷积上采样
         return x
 
 
