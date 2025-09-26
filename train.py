@@ -7,7 +7,7 @@ from torch import nn
 import torch.optim as optim
 import torch.backends.cudnn as cudnn
 from torch.utils.data.dataloader import DataLoader
-from tqdm import tqdm
+from tqdm import tqdm  #tqdm 是一个用于显示循环进度的 Python 库。
 #此时就引入了models.py中的FSRCNN函数/FSRCNN类
 from models import FSRCNN
 
