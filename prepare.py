@@ -49,10 +49,10 @@ def train(args):
             lr = convert_rgb_to_y(lr)
 
             # 从 LR 图像中裁剪 patch，同时在 HR 图像中裁剪对应的高分辨率 patch
-            for i in range(0, lr.shape[0] - args.patch_size + 1, args.scale):
+            for i in range(0, lr.shape[0] - args.patch_size + 1, args.scale):   #for循环中的三个参数分别对应i的起始值，结束值和每次i变化的步长
                 for j in range(0, lr.shape[1] - args.patch_size + 1, args.scale):
                     # LR patch
-                    lr_patches.append(lr[i:i+args.patch_size, j:j+args.patch_size])
+                    lr_patches.append(lr[i:i+args.patch_size, j:j+args.patch_size])  #lr_patches 最终是一个三维 numpy 数组，里面存放了所有从 LR 图像裁剪出来的 patch，每个 patch 的大小是 (patch_size, patch_size)，数据类型是 float32。
                     # 对应的 HR patch（注意要乘以 scale）
                     hr_patches.append(
                         hr[i*args.scale:i*args.scale+args.patch_size*args.scale,
