@@ -10,13 +10,16 @@ from utils import calc_patch_size, convert_rgb_to_y
 @calc_patch_size
 def train(args):
     # 创建一个 HDF5 文件，用于存储训练数据（低分辨率和高分辨率 patch）
-    h5_file = h5py.File(args.output_path, 'w')
+    h5_file = h5py.File(args.output_path, 'w')       #h5py.File用于创建或打开HDF5文件（文件路径，文件打开模式（‘w是写入模式’））
 
     lr_patches = []  # 存放低分辨率图像块
     hr_patches = []  # 存放高分辨率图像块
 
     # 遍历输入目录下的所有图片
-    for image_path in sorted(glob.glob('{}/*'.format(args.images_dir))):
+    for image_path in sorted(glob.glob('{}/*'.format(args.images_dir))):   
+        #sorted函数：对 glob.glob() 查找到的所有文件路径进行字母顺序排序然后遍历
+        #.format函数：'{}/*'.format(args.images_dir)=args.images_dir/*
+        #glob.glob：接收一个模式字符串，在操作系统的文件系统中搜索所有符合这个模式的文件的完整路径，将所有找到的路径收集起来，并返回一个列表
         hr = pil_image.open(image_path).convert('RGB')  # 打开并转为 RGB
         hr_images = []
 
@@ -24,7 +27,7 @@ def train(args):
         if args.with_aug:
             for s in [1.0, 0.9, 0.8, 0.7, 0.6]:  # 不同比例缩放
                 for r in [0, 90, 180, 270]:      # 不同角度旋转
-                    tmp = hr.resize((int(hr.width * s), int(hr.height * s)), resample=pil_image.BICUBIC)
+                    tmp = hr.resize((int(hr.width * s), int(hr.height * s)), resample=pil_image.BICUBIC)   #resize（新宽度和长度，生成新图像的方法）
                     tmp = tmp.rotate(r, expand=True)
                     hr_images.append(tmp)
         else:
