@@ -43,7 +43,7 @@ def train(args):
             # 生成对应的 LR 图像（缩小 scale 倍）
             lr = hr.resize((hr.width // args.scale, hr_height // args.scale), resample=pil_image.BICUBIC)
 
-            # 转换为 numpy 数组并转为 float32
+            # 转换为 numpy 数组并转为 float32。因为用pillow打开的图像RGB数组只有转化为numpy里面的数组结构后可以方便快速计算
             hr = np.array(hr).astype(np.float32)
             lr = np.array(lr).astype(np.float32)
 
@@ -62,7 +62,7 @@ def train(args):
                            j*args.scale:j*args.scale+args.patch_size*args.scale]
                     )
 
-    # 转换为 numpy 数组
+    # 转换为 numpy 数组，加速计算
     lr_patches = np.array(lr_patches)
     hr_patches = np.array(hr_patches)
 
