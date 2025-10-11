@@ -65,7 +65,7 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     # ==================== 模型初始化 ====================
-    # 创建FSRCNN模型并部署到相应设备（GPU/CPU）
+    # 创建FSRCNN模型并部署到相应设备（GPU/CPU）（将FSRCNN模型的参数和计算转移到GPU上进行）
     model = FSRCNN(scale_factor=args.scale).to(device)
     
     # 定义损失函数（均方误差损失，适用于图像重建任务）
