@@ -1,3 +1,5 @@
+#这段代码可以生成训练集和验证集，训练集是图像的切块的集合，验证集是图像的集合
+
 import argparse
 import glob
 import h5py
@@ -51,7 +53,7 @@ def train(args):
             hr = convert_rgb_to_y(hr)
             lr = convert_rgb_to_y(lr)
 
-            # 从 LR 图像中裁剪 patch，同时在 HR 图像中裁剪对应的高分辨率 patch
+            # 从 LR 图像中裁剪 patch，同时在 HR 图像中裁剪对应的高分辨率 patch后存入lr_patches和hr_patches
             for i in range(0, lr.shape[0] - args.patch_size + 1, args.scale):   #for循环中的三个参数分别对应i的起始值，结束值和每次i变化的步长
                 for j in range(0, lr.shape[1] - args.patch_size + 1, args.scale):
                     # LR patch
