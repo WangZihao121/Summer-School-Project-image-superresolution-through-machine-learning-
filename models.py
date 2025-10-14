@@ -16,15 +16,17 @@ class FSRCNN(nn.Module):
                  #self.first_part是nn.Sequential这个类的实例化，成了一个有两个层的神经网络。
                  #此处不能理解为nn.Sequential这个类继承了nn.Conv2d和nn.PReLU这两个类
                  #nn.Conv2d(num_channels, d, kernel_size=5, padding=5//2)   =   nn.Conv2d(num_channels, d, 5, 5//2) 这是个卷积层
-        
+                 #nn.Conv2d 是线性变换，输出 = 卷积(输入 × 权重) + 偏置
+                 #nn.PReLU 是非线性变换，输出 = 输入的非线性映射
 
         
-        self.mid_part = [nn.Conv2d(d, s, kernel_size=1), nn.PReLU(s)]  # 通道压缩。放了两个类在列表中
-        for _ in range(m):
-            self.mid_part.extend([
-                nn.Conv2d(s, s, kernel_size=3, padding=3//2),  # 非线性映射层
+        self.mid_part = [nn.Conv2d(d, s, kernel_size=1), nn.PReLU(s)]  # 放了两个类在列表中
+        for _ in range(m):    #    _ 是一个常用的 Python 约定，表示不关心循环变量的值，只需要执行指定次数的循环
+            self.mid_part.extend([    
+                nn.Conv2d(s, s, kernel_size=3, padding=3//2), 
                 nn.PReLU(s)
             ])
+            # list1.extend(list2)  # 将list2中的所有元素逐个添加到list1末尾
         self.mid_part.extend([
             nn.Conv2d(s, d, kernel_size=1),  # 通道恢复
             nn.PReLU(d)
@@ -33,7 +35,7 @@ class FSRCNN(nn.Module):
 
 
 
-        
+        #卷积是将数据变少也就提取了特征，而反卷积是将数据变多图像重建
         # 反卷积上采样层：将特征图放大为高分辨率图像
         self.last_part = nn.ConvTranspose2d(
             d, num_channels, kernel_size=9,
@@ -44,7 +46,7 @@ class FSRCNN(nn.Module):
 
         self._initialize_weights()  # 初始化权重
 
-    # 权重初始化函数：使用 He 初始化方法对卷积层权重进行初始化
+    # 权重初始化函数，这个函数中初始化了self.first_part，self.mid_part和self.last_part中的卷积/反卷积层数据，而没有初始化它们包含的nn.PReLU非卷积层的数据，nn.PReLU非线性映射层的数据本身有默认值所以不需要初始化
     def _initialize_weights(self):
         for m in self.first_part:
             #虽然self.first_part不是一个列表类型数据，但是nn.Sequential 实现了 __getitem__ 方法，使其支持索引。这个循环其实是在遍历self.first_part神经网络中的每个层
@@ -63,7 +65,7 @@ class FSRCNN(nn.Module):
 
     # 前向传播函数：定义数据流动路径
     def forward(self, x):
-        x = self.first_part(x)  #特征提取层，x会先进入nn.Conv2d（PyTorch 提供的一个类，可以理解为g（x）函数）然后g（x）进入nn.PReLU后输出h（x）并将这个值赋给x。等效于下面这段注释的代码
+        x = self.first_part(x)  #特征提取层，等效于下面这段注释的代码
         #def __init__···
         #    ···
         #    self.part1 = nn.Conv2d(num_channels, d, kernel_size=5, padding=5//2)
@@ -71,7 +73,7 @@ class FSRCNN(nn.Module):
         #    ···
         #···
         #x = self.part2(self.part1(x))
-        #self.part1是nn.Conv2d的实例化，self.part1(x)意味着x会作为输入输入nn.Conv2d这个类中定义的一个函数，得到的输出就是self.part1(x)
+        #self.part1(x)意味着x会作为输入输入nn.Conv2d这个类中定义的一个函数，输出就是self.part1(x)
         
         x = self.mid_part(x)    #特征收缩和非线性映射
         x = self.last_part(x)   #反卷积上采样
