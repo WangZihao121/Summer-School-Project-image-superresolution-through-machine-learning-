@@ -8,7 +8,7 @@ import PIL.Image as pil_image
 from utils import calc_patch_size, convert_rgb_to_y
 
 
-# 使用装饰器 calc_patch_size 来自动计算 patch 大小（具体逻辑在 utils.py 中）
+# 使用装饰器 calc_patch_size 来自动计算 patch 大小，@calc_patch_size把下面定义的函数作为参数传递给 calc_patch_size，然后用返回值替换原函数
 @calc_patch_size
 def train(args):
     # 创建一个 HDF5 文件，用于存储训练数据（低分辨率和高分辨率 patch）
