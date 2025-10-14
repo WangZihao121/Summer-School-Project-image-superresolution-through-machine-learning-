@@ -2,7 +2,7 @@ import torch
 import numpy as np
 
 
-def calc_patch_size(func):
+def calc_patch_size(func):    #虽然此处它定义看着像一个函数，但是由于在主代码中使用它的时候是@calc_patch_size 这个语法所以calc_patch_size是个装饰器
     def wrapper(args):
         if args.scale == 2:
             args.patch_size = 10
