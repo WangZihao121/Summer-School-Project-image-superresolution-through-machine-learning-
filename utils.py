@@ -11,7 +11,7 @@ def calc_patch_size(func):    #虽然此处它定义看着像一个函数，但�
         elif args.scale == 4:
             args.patch_size = 6
         else:
-            raise Exception('Scale Error', args.scale)
+            raise Exception('Scale Error', args.scale)    #立即终止程序，并报告一个错误：缩放因子参数值 args.scale 不在支持的范围内（只支持 2、3、4）
         return func(args)
     return wrapper
 
