@@ -111,8 +111,8 @@ def eval(args):
 
 
 if __name__ == '__main__':
-    # 命令行参数解析
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()# 创建命令行参数解析器
+    #以下是在定义我在命令行传入的参数需要包含的内容
     parser.add_argument('--images-dir', type=str, required=True)   # 输入图像目录
     parser.add_argument('--output-path', type=str, required=True)  # 输出 HDF5 文件路径
     parser.add_argument('--scale', type=int, default=2)            # 缩放因子
