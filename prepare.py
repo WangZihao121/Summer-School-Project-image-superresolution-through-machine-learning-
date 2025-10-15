@@ -118,7 +118,8 @@ if __name__ == '__main__':
     parser.add_argument('--scale', type=int, default=2)            # 缩放因子
     parser.add_argument('--with-aug', action='store_true')         # 是否启用数据增强
     parser.add_argument('--eval', action='store_true')             # 是否生成验证集
-    args = parser.parse_args()
+    
+    args = parser.parse_args()#开始解析命令行中传入的参数
 
     # 根据参数选择执行训练数据准备或验证数据准备
     if not args.eval:
