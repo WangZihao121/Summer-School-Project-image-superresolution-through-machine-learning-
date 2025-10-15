@@ -47,10 +47,10 @@ if __name__ == '__main__':
 
     # ==================== 输出目录设置 ====================
     # 根据缩放因子创建子目录，例如: outputs-dir/x2/
-    args.outputs_dir = os.path.join(args.outputs_dir, 'x{}'.format(args.scale))
-    
-    # 如果目录不存在则创建
-    if not os.path.exists(args.outputs_dir):
+    args.outputs_dir = os.path.join(args.outputs_dir, 'x{}'.format(args.scale))    #os.path.join（字符串1，字符串2，字符串3···）作用是将字符串们用‘/’直接拼接在一起
+
+    #如果args.outputs_dir这个路径不存在，那么就创建这个路径
+    if not os.path.exists(args.outputs_dir):   
         os.makedirs(args.outputs_dir)
 
     # ==================== 设备配置 ====================
