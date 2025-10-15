@@ -16,7 +16,7 @@ def calc_patch_size(func):    #虽然此处它定义看着像一个函数，但�
         return func(args)
     return wrapper
 
-
+#这个函数实现了 RGB 到 Y（亮度）的转换，使用的是标准的 BT.601 转换公式
 def convert_rgb_to_y(img, dim_order='hwc'):
     if dim_order == 'hwc':
         return 16. + (64.738 * img[..., 0] + 129.057 * img[..., 1] + 25.064 * img[..., 2]) / 256.
