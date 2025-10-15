@@ -3,6 +3,7 @@ import numpy as np
 
 
 def calc_patch_size(func):    #虽然此处它定义看着像一个函数，但是由于在主代码中使用它的时候是@calc_patch_size 这个语法所以calc_patch_size是个装饰器
+    #这个函数定义了不同命令行参数scale的输入对应的不同patch_size参数，从语法上讲，patch_size的数值设置和scale没有任何关系。但是机器学习的经验告诉我们一般scale == 2时，patch_size = 10训练效果更好
     def wrapper(args):
         if args.scale == 2:
             args.patch_size = 10
