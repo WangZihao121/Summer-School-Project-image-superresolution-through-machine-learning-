@@ -25,6 +25,8 @@ def train(args):
         hr = pil_image.open(image_path).convert('RGB')  # 打开并转为 RGB
         hr_images = []
 
+
+        
         # 如果开启数据增强（with_aug），则对图像进行缩放和旋转增强
         if args.with_aug:
             for s in [1.0, 0.9, 0.8, 0.7, 0.6]:  # 不同比例缩放
@@ -32,9 +34,12 @@ def train(args):
                     tmp = hr.resize((int(hr.width * s), int(hr.height * s)), resample=pil_image.BICUBIC)   #resize（新宽度和长度，生成新图像的方法）
                     tmp = tmp.rotate(r, expand=True)
                     hr_images.append(tmp)
+        # 不增强时只保留原图
         else:
-            hr_images.append(hr)  # 不增强时只保留原图
+            hr_images.append(hr) 
 
+
+        
         # 遍历增强后的所有 HR 图像
         for hr in hr_images:
             # 调整 HR 图像大小，使其能被 scale 整除
@@ -45,11 +50,11 @@ def train(args):
             # 生成对应的 LR 图像（缩小 scale 倍）
             lr = hr.resize((hr.width // args.scale, hr_height // args.scale), resample=pil_image.BICUBIC)
 
-            # 转换为 numpy 数组并转为 float32。因为用pillow打开的图像RGB数组只有转化为numpy里面的数组结构后可以方便快速计算
+            # 图像由RGB数组转换为 numpy 数组并转为 float32。因为numpy里面的数组结构可以方便快速计算
             hr = np.array(hr).astype(np.float32)
             lr = np.array(lr).astype(np.float32)
 
-            # 转换为 Y 通道（亮度），因为超分辨率通常只在 Y 通道上训练
+            # 图像由numpy 数组转换为 Y 通道（亮度），因为超分辨率通常只在 Y 通道上训练
             hr = convert_rgb_to_y(hr)
             lr = convert_rgb_to_y(lr)
 
