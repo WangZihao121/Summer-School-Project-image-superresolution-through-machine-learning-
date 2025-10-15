@@ -89,7 +89,7 @@ def eval(args):
     hr_group = h5_file.create_group('hr')
 
     # 遍历输入目录下的所有图片
-    for i, image_path in enumerate(sorted(glob.glob('{}/*'.format(args.images_dir)))):
+    for i, image_path in enumerate(sorted(glob.glob('{}/*'.format(args.images_dir)))):    #enumerate作用相当于让i也在随着image_path计数
         hr = pil_image.open(image_path).convert('RGB')
 
         # 调整 HR 图像大小，使其能被 scale 整除
@@ -109,7 +109,7 @@ def eval(args):
         lr = convert_rgb_to_y(lr)
 
         # 将每张图像单独存储在 group 下
-        lr_group.create_dataset(str(i), data=lr)
+        lr_group.create_dataset(str(i), data=lr)    #create_dataset的作用是往组中加入lr数据，并创建索引名str(i)使lr对应这个索引。.create_dataset(字符串, data)
         hr_group.create_dataset(str(i), data=hr)
 
     h5_file.close()
