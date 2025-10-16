@@ -148,15 +148,16 @@ if __name__ == '__main__':
         epoch_psnr = AverageMeter()  # 初始化PSNR记录器
 
         # 遍历验证数据集
-        for data in eval_dataloader:    #data在循环中是一个包含两个元素的元组
-            inputs, labels = data
+        for data in eval_dataloader:    #data在循环中是一个包含两个元素的元组，经过一系列操作后是EvalDataset这个类中getitem()函数的返回值
+            inputs, labels = data       #data（验证集中的第一张lr图片，第一张hr图片）分别赋给了inputs, labels
 
             # 将数据移动到相应设备
-            inputs = inputs.to(device)
+            inputs = inputs.to(device)    #inputs 的数据类型保持不变，只是处理数据的设备变了
             labels = labels.to(device)
 
             # 验证阶段不计算梯度（节省内存和计算资源）
             with torch.no_grad():
+                # torch.no_grad使得在这个代码块中，所有操作都不会计算梯度，也不会在计算图中记录操作
                 # 模型预测并限制像素值在[0, 1]范围内
                 preds = model(inputs).clamp(0.0, 1.0)
 
