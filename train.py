@@ -148,7 +148,7 @@ if __name__ == '__main__':
         epoch_psnr = AverageMeter()  # 初始化PSNR记录器
 
         # 遍历验证数据集
-        for data in eval_dataloader:
+        for data in eval_dataloader:    #data在循环中是一个包含两个元素的元组
             inputs, labels = data
 
             # 将数据移动到相应设备
