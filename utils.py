@@ -58,7 +58,7 @@ def preprocess(img, device):
     return x, ycbcr
 
 
-def calc_psnr(img1, img2):
+def calc_psnr(img1, img2):        #传入两个图片张量数据
     return 10. * torch.log10(1. / torch.mean((img1 - img2) ** 2))        #torch.mean（张量），1.=1.0
 
 
