@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # 根据缩放因子创建子目录，例如: outputs-dir/x2/
     args.outputs_dir = os.path.join(args.outputs_dir, 'x{}'.format(args.scale))    #os.path.join（字符串1，字符串2，字符串3···）作用是将字符串们用‘/’直接拼接在一起
 
-    #如果args.outputs_dir这个路径不存在，那么就创建这个路径
+    #如果args.outputs_dir这个路径不存在，那么就创建这个路径文件夹
     if not os.path.exists(args.outputs_dir):   
         os.makedirs(args.outputs_dir)
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     # ==================== 模型初始化 ====================
-    # 创建FSRCNN模型并部署到相应设备（GPU/CPU）（将FSRCNN模型的参数和计算转移到GPU上进行）
+    # 创建FSRCNN模型并部署到相应设备（GPU/CPU）（将FSRCNN模型的参数传输到GPU上，计算转移到GPU上进行）
     model = FSRCNN(scale_factor=args.scale).to(device)
     
     # 定义损失函数（均方误差损失，适用于图像重建任务）
