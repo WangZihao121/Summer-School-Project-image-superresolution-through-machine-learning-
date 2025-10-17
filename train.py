@@ -165,7 +165,7 @@ if __name__ == '__main__':
             epoch_psnr.update(calc_psnr(preds, labels), len(inputs))
 
         # 输出当前epoch的验证结果
-        print('验证 PSNR: {:.2f} dB'.format(epoch_psnr.avg))
+        print('验证 PSNR: {:.2f} dB'.format(epoch_psnr.avg))    #“:.2f”是让epoch_psnr.avg取两位小数
 
         # ---------- 保存最佳模型 ----------
         # 如果当前epoch的PSNR优于历史最佳，则更新最佳模型
