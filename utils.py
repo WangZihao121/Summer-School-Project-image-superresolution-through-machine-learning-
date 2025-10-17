@@ -59,7 +59,7 @@ def preprocess(img, device):
 
 
 def calc_psnr(img1, img2):
-    return 10. * torch.log10(1. / torch.mean((img1 - img2) ** 2))
+    return 10. * torch.log10(1. / torch.mean((img1 - img2) ** 2))        #torch.mean（张量），1.=1.0
 
 
 class AverageMeter(object):
