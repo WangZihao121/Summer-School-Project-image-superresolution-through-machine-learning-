@@ -172,7 +172,7 @@ if __name__ == '__main__':
         if epoch_psnr.avg > best_psnr:
             best_epoch = epoch
             best_psnr = epoch_psnr.avg
-            best_weights = copy.deepcopy(model.state_dict())  # 深拷贝保存权重
+            best_weights = copy.deepcopy(model.state_dict())  # 深拷贝保存权重，修改深拷贝中的任何内容都不会影响原对象。
             print(f'新的最佳模型！epoch: {epoch}, PSNR: {best_psnr:.2f} dB')
 
     # ==================== 训练完成 ====================
