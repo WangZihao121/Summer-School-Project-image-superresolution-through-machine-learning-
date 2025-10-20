@@ -31,7 +31,7 @@ class FSRCNN(nn.Module):
             nn.Conv2d(s, d, kernel_size=1),  # 通道恢复
             nn.PReLU(d)
         ])
-        self.mid_part = nn.Sequential(*self.mid_part)  # 将列表转换为顺序模块
+        self.mid_part = nn.Sequential(*self.mid_part)  # 将列表转换为顺序模块，*self.mid_part会将列表解包，【a，b】=>a，b
 
 
 
