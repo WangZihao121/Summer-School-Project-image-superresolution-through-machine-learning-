@@ -124,10 +124,10 @@ if __name__ == '__main__':
                 preds = model(inputs)
 
                 # 计算损失：预测值与真实值的差异
-                loss = criterion(preds, labels)
+                loss = criterion(preds, labels) #loss是一个torch类型的张量
 
                 # 更新平均损失
-                epoch_losses.update(loss.item(), len(inputs))
+                epoch_losses.update(loss.item(), len(inputs))    #loss.item() 的作用是从包含单个元素的 PyTorch Tensor 中提取出 Python 数值。
 
                 # 反向传播和优化
                 optimizer.zero_grad()  # 清空之前的梯度
