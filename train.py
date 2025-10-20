@@ -135,7 +135,7 @@ if __name__ == '__main__':
                 optimizer.step()       # 更新模型参数
 
                 # 更新进度条显示
-                t.set_postfix(loss='{:.6f}'.format(epoch_losses.avg))
+                t.set_postfix(loss='{:.6f}'.format(epoch_losses.avg))    #在进度条的右侧显示额外的信息
                 t.update(len(inputs))  # 更新进度
 
         # 保存当前epoch的模型权重
