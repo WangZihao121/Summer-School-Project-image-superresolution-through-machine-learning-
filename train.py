@@ -109,8 +109,8 @@ if __name__ == '__main__':
 
         # 使用进度条显示训练进度
         with tqdm(total=(len(train_dataset) - len(train_dataset) % args.batch_size), 
-                 ncols=80) as t:
-            t.set_description('epoch: {}/{}'.format(epoch, args.num_epochs - 1))
+                 ncols=80) as t:    #tqdm（total总迭代次数，ncols进度条宽度）用于为循环添加进度条
+            t.set_description('epoch: {}/{}'.format(epoch, args.num_epochs - 1))    #t.set_description（）在进度条左侧显示信息
 
             # 遍历训练数据集的每个批次
             for data in train_dataloader:
