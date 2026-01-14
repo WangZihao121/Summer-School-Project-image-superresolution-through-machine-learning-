@@ -1,13 +1,32 @@
-# FSRCNN
+## FSRCNN的使用背景
+
+SRCNN计算成本过高，而移动端处理器（ARM架构）对复杂的卷积运算非常敏感
+$\color{red}{\textbf{了解为什么arm对计算复杂度很敏感（问蒿老师这个需不需要做）}}$
+
+## 参考文献
 
 This repository is implementation of the ["Accelerating the Super-Resolution Convolutional Neural Network"](https://arxiv.org/abs/1608.00367).
 
 <center><img src="./thumbnails/fig1.png"></center>
 
-## Differences from the original
+其中提到了FSRCNN相对于SRCNN的改进之处：
+$\color{red}{\textbf{问蒿老师我需不需要去识别这些东西在代码中的体现，去识别一下代码中的体现}}$
+1.introduce a deconvolution layer at the end of the network
+2.reformulate the mapping layer by shrinking the input feature dimension before mapping and expanding back afterwards
+3.adopt smaller filter sizes but more mapping layers
 
-- Added the zero-padding
-- Used the Adam instead of the SGD
+取得了更好的效果：
+1.speed up of more than 40 times with even superior restoration quality
+$\color{red}{\textbf{需不需要去将SRCNNrun一下然后对比效率}}$
+2.present the parameter settings that can achieve real-time performance on a generic CPU while still maintaining good performance
+$\color{red}{\textbf{这话什么意思？}}$
+3.transfer strategy is also proposed for fast training and testing across different upscaling factors
+$\color{red}{\textbf{这话什么意思？}}$
+
+## $\color{red}{\textbf{作者列出的两个关键点}}$
+
+- Added the zero-padding这个在论文中提到了
+- Used the Adam instead of the SGD这个在论文中没提到
 
 ## Requirements
 
