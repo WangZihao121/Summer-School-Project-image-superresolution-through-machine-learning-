@@ -4,7 +4,7 @@ SRCNN计算成本过高，而移动端处理器（ARM架构）对复杂的卷积
 $\color{red}{\textbf{了解为什么arm对计算复杂度很敏感（问蒿老师这个需不需要做）}}$
 
 ## 参考文献
-
+$\color{red}{\textbf{去读}}$
 This repository is implementation of the ["Accelerating the Super-Resolution Convolutional Neural Network"](https://arxiv.org/abs/1608.00367).
 
 <center><img src="./thumbnails/fig1.png"></center>
