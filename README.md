@@ -20,6 +20,7 @@ This repository is implementation of the ["Accelerating the Super-Resolution Con
 1.introduce a deconvolution layer at the end of the network  -->  model.py:self.last_part = nn.ConvTranspose2d
 2.reformulate the mapping layer by shrinking the input feature dimension (model.py:nn.Conv2d(d, s, kernel_size=1)) before mapping and expanding back afterwards(model.py:nn.Conv2d(s, d, kernel_size=1))
 3.adopt smaller filter sizes but more mapping layers
+![项目Logo](./assets/logo.png)
 
 取得了更好的效果：
 1.speed up of more than 40 times with even superior restoration quality
