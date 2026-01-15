@@ -18,7 +18,7 @@ This repository is implementation of the ["Accelerating the Super-Resolution Con
 其中提到了FSRCNN相对于SRCNN的改进之处：
 
 1.introduce a deconvolution layer at the end of the network  -->  model.py:self.last_part = nn.ConvTranspose2d
-2.reformulate the mapping layer by shrinking the input feature dimension before mapping and expanding back afterwards
+2.reformulate the mapping layer by shrinking the input feature dimension (model.py:nn.Conv2d(d, s, kernel_size=1)) before mapping and expanding back afterwards(model.py:nn.Conv2d(s, d, kernel_size=1))
 3.adopt smaller filter sizes but more mapping layers
 
 取得了更好的效果：
