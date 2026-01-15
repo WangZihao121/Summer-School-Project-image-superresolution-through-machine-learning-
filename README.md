@@ -18,15 +18,26 @@ This repository is implementation of the ["Accelerating the Super-Resolution Con
 其中提到了FSRCNN相对于SRCNN的改进之处：
 
 1.introduce a deconvolution layer at the end of the network  -->  model.py:self.last_part = nn.ConvTranspose2d
-2.reformulate the mapping layer by shrinking the input feature dimension (model.py:nn.Conv2d(d, s, kernel_size=1)) before mapping and expanding back afterwards(model.py:nn.Conv2d(s, d, kernel_size=1))
-3.adopt smaller filter sizes but more mapping layers
-![项目Logo](./assets/logo.png)
 
+2.reformulate the mapping layer by shrinking the input feature dimension (model.py:nn.Conv2d(d, s, kernel_size=1)) before mapping and expanding back afterwards(model.py:nn.Conv2d(s, d, kernel_size=1))
+
+3.adopt smaller filter sizes but more mapping layers
+
+在model.py中
+![](./screenshot/Screenshot1.png)
+
+-
+-
+-
+-
 取得了更好的效果：
+
 1.speed up of more than 40 times with even superior restoration quality
 $\color{red}{\textbf{需不需要去将SRCNNrun一下然后对比效率}}$
+
 2.present the parameter settings that can achieve real-time performance on a generic CPU while still maintaining good performance
 $\color{red}{\textbf{这话什么意思？}}$
+
 3.transfer strategy is also proposed for fast training and testing across different upscaling factors
 $\color{red}{\textbf{这话什么意思？}}$
 
