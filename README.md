@@ -4,11 +4,12 @@ SRCNN计算成本过高，而移动端处理器（ARM架构）对复杂的卷积
 为什么arm架构的芯片对卷积运算很敏感：
 arm架构采用RISC协议，RISC取指压力大： 对于同样的卷积计算，输入给RISC芯片的二进制指令串往往比CISC长得多，芯片需要从内存里不停地“吃”指令。因为指令串很长，芯片的“嘴巴”（取指单元）就会很忙，为了完成卷积，RISC 要发出比 CISC 多得多的指令电信号。每发一次信号，芯片内部的电容就要充放电一次，这就是发热和耗电的物理根源。因为 RISC 每次只能算一小步，中间结果必须频繁地存入和取出寄存器。这在物理电路上意味着电子在导线里不停地跑来跑去，路径变长，这就是延迟的物理根源
 
-##解决方案：
+## 解决方案：
+
 - FSRCNN
 - ESPCNN
 
-## 参考文献
+## FSRCNN参考文献
 $\color{red}{\textbf{去读}}$
 This repository is implementation of the ["Accelerating the Super-Resolution Convolutional Neural Network"](https://arxiv.org/abs/1608.00367).
 
