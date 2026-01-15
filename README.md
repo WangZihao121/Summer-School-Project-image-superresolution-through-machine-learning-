@@ -44,7 +44,9 @@ $\color{red}{\textbf{这话什么意思？}}$
 ## $\color{red}{\textbf{作者列出的两个关键点}}$
 
 - Added the zero-padding这个在论文中提到了。在model.py文件中。零填充的目的是保持图像尺寸和保护边缘信息
-- Used the Adam instead of the SGD这个在论文中没提到
+
+- Used the Adam instead of the SGD（train.py: optimizer = optim.Adam）
+
 
 ## Requirements
 
