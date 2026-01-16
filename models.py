@@ -7,8 +7,8 @@ class FSRCNN(nn.Module):
         super(FSRCNN, self).__init__()       # 初始化父类 nn.Module
 
 
-
         
+        #第一层，特征提取层
         self.first_part = nn.Sequential(
             nn.Conv2d(num_channels, d, kernel_size=5, padding=5//2),               
             nn.PReLU(d)
@@ -20,13 +20,19 @@ class FSRCNN(nn.Module):
                  #nn.PReLU 是非线性变换，输出 = 输入的非线性映射
 
         
+        #第二层
+        # (1) 收缩层 (Shrinking)：降通道数
         self.mid_part = [nn.Conv2d(d, s, kernel_size=1), nn.PReLU(s)]  # 放了两个类在列表中
+
+        # (2) 非线性映射层 (Non-linear Mapping)：提取特征
         for _ in range(m):    #    _ 是一个常用的 Python 约定，表示不关心循环变量的值，只需要执行指定次数的循环
             self.mid_part.extend([    
                 nn.Conv2d(s, s, kernel_size=3, padding=3//2), 
                 nn.PReLU(s)
             ])
             # list1.extend(list2)  # 将list2中的所有元素逐个添加到list1末尾
+
+        # (3) 扩张层 (Expanding)：恢复通道数，为重建做准备
         self.mid_part.extend([
             nn.Conv2d(s, d, kernel_size=1),  # 通道恢复
             nn.PReLU(d)
@@ -34,9 +40,9 @@ class FSRCNN(nn.Module):
         self.mid_part = nn.Sequential(*self.mid_part)  # 将列表转换为顺序模块，*self.mid_part会将列表解包，【a，b】=>a，b
 
 
-
+        #第三层
         #卷积是将数据变少也就提取了特征，而反卷积是将数据变多图像重建
-        # 反卷积上采样层：将特征图放大为高分辨率图像
+        #反卷积上采样层（重建层）：将特征图放大为高分辨率图像
         self.last_part = nn.ConvTranspose2d(
             d, num_channels, kernel_size=9,
             stride=scale_factor,
@@ -46,6 +52,8 @@ class FSRCNN(nn.Module):
 
         self._initialize_weights()  # 初始化权重
 
+
+    
     # 权重初始化函数，这个函数中初始化了self.first_part，self.mid_part和self.last_part中的卷积/反卷积层数据，而没有初始化它们包含的nn.PReLU非卷积层的数据，nn.PReLU非线性映射层的数据本身有默认值所以不需要初始化
     def _initialize_weights(self):
         for m in self.first_part:
@@ -63,6 +71,8 @@ class FSRCNN(nn.Module):
         nn.init.normal_(self.last_part.weight.data, mean=0.0, std=0.001)  # 输出层初始化
         nn.init.zeros_(self.last_part.bias.data)
 
+
+    
     # 前向传播函数：定义数据流动路径
     def forward(self, x):
         x = self.first_part(x)  #特征提取层，等效于下面这段注释的代码
