@@ -1,4 +1,4 @@
-import argparse
+import argparse #用于从命令行接收参数
 import os
 import copy
 
@@ -16,7 +16,11 @@ from utils import AverageMeter, calc_psnr
 
 
 if __name__ == '__main__':
-    # ==================== 参数设置 ====================
+
+    
+    #################命令行参数解析 (Argument Parsing)####################
+
+    
     parser = argparse.ArgumentParser(description='FSRCNN超分辨率模型训练脚本')
     
     # 必需参数
@@ -44,8 +48,14 @@ if __name__ == '__main__':
                        help='随机种子（默认：123）')
     
     args = parser.parse_args()
+    #此后在代码里，你可以通过 args.lr 获取学习率，通过 args.scale 获取放大倍数。
 
-    # ==================== 输出目录设置 ====================
+
+    
+    #################### 设备与输出目录设置 (Environment Setup)##############################
+
+    
+    
     # 根据缩放因子创建子目录，例如: outputs-dir/x2/
     args.outputs_dir = os.path.join(args.outputs_dir, 'x{}'.format(args.scale))    #os.path.join（字符串1，字符串2，字符串3···）作用是将字符串们用‘/’直接拼接在一起
 
@@ -64,7 +74,12 @@ if __name__ == '__main__':
     # 设置随机种子以保证结果可重现
     torch.manual_seed(args.seed)
 
-    # ==================== 模型初始化 ====================
+
+    
+    ######################模型、损失函数与优化器 (Model, Loss & Optimizer)设置###################################
+
+
+    
     # 创建FSRCNN模型并部署到相应设备（GPU/CPU）（将FSRCNN模型的参数传输到GPU上，计算转移到GPU上进行）
     model = FSRCNN(scale_factor=args.scale).to(device)
     
@@ -78,7 +93,12 @@ if __name__ == '__main__':
         {'params': model.last_part.parameters(), 'lr': args.lr * 0.1}  # 最后部分/last_part/反卷积上采样层：较低学习率lr * 0.1
     ], lr=args.lr)
 
-    # ==================== 数据加载 ====================
+
+    
+    #######################数据加载器 (Data Loaders)设置#################################
+
+
+    
     # 创建训练数据集和数据加载器
     train_dataset = TrainDataset(args.train_file)  # 加载训练数据
 
@@ -100,7 +120,12 @@ if __name__ == '__main__':
     best_epoch = 0     # 最佳epoch编号
     best_psnr = 0.0    # 最佳PSNR值
 
-    # ==================== 训练循环 ====================
+
+    
+    ##################################开始训练循环##################################
+
+
+    
     print("开始训练...")
     for epoch in range(args.num_epochs):
         # ---------- 训练阶段 ----------
@@ -175,7 +200,12 @@ if __name__ == '__main__':
             best_weights = copy.deepcopy(model.state_dict())  # 深拷贝保存权重，修改深拷贝中的任何内容都不会影响原对象。
             print(f'新的最佳模型！epoch: {epoch}, PSNR: {best_psnr:.2f} dB')
 
-    # ==================== 训练完成 ====================
+
+    
+    #############################训练完成#################################
+
+
+    
     # 输出最终结果并保存最佳模型权重
     print('训练完成！')
     print('最佳 epoch: {}, 最佳 PSNR: {:.2f} dB'.format(best_epoch, best_psnr))
