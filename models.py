@@ -56,19 +56,26 @@ class FSRCNN(nn.Module):
     
     # 权重初始化函数，这个函数中初始化了self.first_part，self.mid_part和self.last_part中的卷积/反卷积层数据，而没有初始化它们包含的nn.PReLU非卷积层的数据，nn.PReLU非线性映射层的数据本身有默认值所以不需要初始化
     def _initialize_weights(self):
+
+        #第一层初始化
         for m in self.first_part:
             #虽然self.first_part不是一个列表类型数据，但是nn.Sequential 实现了 __getitem__ 方法，使其支持索引。这个循环其实是在遍历self.first_part神经网络中的每个层
             if isinstance(m, nn.Conv2d):    #isinstance函数：判断m是不是nn.Conv2d类型或者其子类
                 nn.init.normal_(m.weight.data, mean=0.0,
-                                std=math.sqrt(2/(m.out_channels * m.weight.data[0][0].numel())))    #通过正态分布随机抽样生成卷积核数据
+                                std=math.sqrt(2/(m.out_channels * m.weight.data[0][0].numel())))    #通过正态分布（均值是mean，方差是std（使用了He初始化方法来确定最佳std大小））随机生成数据填入卷积核
                 # 当m是卷积层的时候，m.weight是卷积核的可训练版本，m.weight.data是卷积核本身的数值
                 nn.init.zeros_(m.bias.data) # m.bias.data是卷积层的偏置参数的数值部分，nn.init.zeros_将其设为0。在卷积运算中：输出 = 卷积(输入 × 权重) + 偏置
+
+        #第二层初始化
         for m in self.mid_part:
             if isinstance(m, nn.Conv2d):
                 nn.init.normal_(m.weight.data, mean=0.0,
                                 std=math.sqrt(2/(m.out_channels * m.weight.data[0][0].numel())))
                 nn.init.zeros_(m.bias.data)
-        nn.init.normal_(self.last_part.weight.data, mean=0.0, std=0.001)  # 输出层初始化
+
+        #第三层初始化
+        #std小的原因：最后一层直接输出图像的像素值。使用极小的随机值初始化，可以让模型在训练初期输出接近于 0 或均值的图像，这有助于稳定训练的开始阶段，防止一开始输出乱七八糟的噪声导致损失函数（Loss）直接爆表。
+        nn.init.normal_(self.last_part.weight.data, mean=0.0, std=0.001) 
         nn.init.zeros_(self.last_part.bias.data)
 
 
