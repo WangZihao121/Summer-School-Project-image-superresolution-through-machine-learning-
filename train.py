@@ -15,7 +15,7 @@ from datasets import TrainDataset, EvalDataset
 from utils import AverageMeter, calc_psnr
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':   #如果这个文件是直接被运行的，则执行下面的代码；如果这个文件是被作为模块导入（import）到其他文件中的，则不执行下面的代码
 
     
     #################命令行参数解析 (Argument Parsing)####################
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # 定义损失函数（均方误差损失，适用于图像重建任务）
     criterion = nn.MSELoss()
     
-    # 定义优化器（Adam优化器），对不同部分智能地动态调整学习率
+    # 定义优化器（Adam优化器），对不同卷积层智能地动态调整学习率
     optimizer = optim.Adam([
         {'params': model.first_part.parameters()},      # 第一部分/first_part/特征提取层：正常学习率
         {'params': model.mid_part.parameters()},        # 中间部分/second_part/非线性映射层：正常学习率  
