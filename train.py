@@ -90,9 +90,9 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
     #optimizer是optim.Adam的实例化
     #传入optim.Adam一个字典列表和lr=args.lr，optim.Adam会依次检查各个字典中是否定义了lr这个键，没有就添加lr键，它的值就用args.lr。于是生成的新的字典列表可以通过optimizer.param_groups来调用
     optimizer = optim.Adam([
-        {'params': model.first_part.parameters()},      # 第一部分/first_part/特征提取层：正常学习率
-        {'params': model.mid_part.parameters()},        # 中间部分/second_part/非线性映射层：正常学习率  
-        {'params': model.last_part.parameters(), 'lr': args.lr * 0.1}  # 最后部分/last_part/反卷积上采样层：较低学习率lr * 0.1
+        {'params': model.first_part.parameters()},  
+        {'params': model.mid_part.parameters()},      
+        {'params': model.last_part.parameters(), 'lr': args.lr * 0.1} 
     ], lr=args.lr)
 
 
@@ -104,7 +104,8 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
     train_dataset = TrainDataset(args.train_file)  # 加载训练数据
 
     #DataLoader是pytorch中定义的类
-    
+    #train_dataloader包含了一个打乱了顺序的数字列表。比如 [50, 2, 999, 14...]。它不存图，只存“货号”。
+    #之后在训练过程中train_dataloader知道每数出 batch_size 个货号（比如 16 个），就去调用一次 Dataset.__getitem__
     train_dataloader = DataLoader(
         dataset=train_dataset,
         batch_size=args.batch_size,
