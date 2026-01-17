@@ -101,10 +101,10 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
 
 
     
-    # 创建训练数据集和数据加载器
     train_dataset = TrainDataset(args.train_file)  # 加载训练数据
 
     #DataLoader是pytorch中定义的类
+    
     train_dataloader = DataLoader(
         dataset=train_dataset,
         batch_size=args.batch_size,
