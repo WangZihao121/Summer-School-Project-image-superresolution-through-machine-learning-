@@ -86,7 +86,9 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
     # 定义损失函数（均方误差损失，适用于图像重建任务）
     criterion = nn.MSELoss()
     
-    # 定义优化器（Adam优化器），对不同卷积层智能地动态调整学习率
+    # 定义优化器（Adam优化器）（目的：在之后训练模型期间对不同卷积层智能地动态调整学习率）
+    #optimizer是optim.Adam的实例化
+    #传入optim.Adam一个字典列表和lr=args.lr，optim.Adam会依次检查各个字典中是否定义了lr这个键，没有就添加lr键，它的值就用args.lr。于是生成的新的字典列表可以通过optimizer.param_groups来调用
     optimizer = optim.Adam([
         {'params': model.first_part.parameters()},      # 第一部分/first_part/特征提取层：正常学习率
         {'params': model.mid_part.parameters()},        # 中间部分/second_part/非线性映射层：正常学习率  
