@@ -105,7 +105,6 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
 
     #DataLoader是pytorch中定义的类
     #train_dataloader包含了一个打乱了顺序的数字列表。比如 [50, 2, 999, 14...]。它不存图，只存“货号”。
-    #之后在训练过程中train_dataloader知道每数出 batch_size 个货号（比如 16 个），就去调用一次 Dataset.__getitem__
     train_dataloader = DataLoader(
         dataset=train_dataset,
         batch_size=args.batch_size,
@@ -141,7 +140,7 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
             t.set_description('epoch: {}/{}'.format(epoch, args.num_epochs - 1))    #t.set_description（）在进度条左侧显示信息
 
             # 遍历训练数据集的每个批次
-            for data in train_dataloader:
+            for data in train_dataloader: #这行代码的详细解释在《学习如何写代码》文档中，data此时是一个包含了两个张量的列表，两个张量分别储存了args.batch_size个LR和HR的图像数据
                 inputs, labels = data       #inputs: 低分辨率图像, labels: 高分辨率真实图像
 
                 # 将数据移动到相应设备
