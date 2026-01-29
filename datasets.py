@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 
 class TrainDataset(Dataset):
     def __init__(self, h5_file):
-        super(TrainDataset, self).__init__()  #super函数：使这段代码运行了一遍TrainDataset的父类的init函数
+        super(TrainDataset, self).__init__()  #等效于super().__init__()，super()就是Dataset，而super().__init__()就是Dataset.__init__()
         self.h5_file = h5_file
 
     def __getitem__(self, idx):
