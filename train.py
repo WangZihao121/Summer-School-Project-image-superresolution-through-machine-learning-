@@ -130,7 +130,11 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
     
     print("开始训练...")
     for epoch in range(args.num_epochs):
+
+        
         # ---------- 训练阶段 ----------
+
+        
         model.train()  # 设置模型为训练模式（启用dropout等）
         epoch_losses = AverageMeter()  # 初始化损失记录器
 
@@ -170,7 +174,11 @@ if __name__ == '__main__':   #如果这个文件是直接被运行的，则执�
         torch.save(model.state_dict(), model_path)
         print(f'已保存 epoch {epoch} 的模型权重: {model_path}')
 
+
+        
         # ---------- 验证阶段 ----------
+
+        
         model.eval()  # 设置模型为评估模式（禁用dropout等）
         epoch_psnr = AverageMeter()  # 初始化PSNR记录器
 
